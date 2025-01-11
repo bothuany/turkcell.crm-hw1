@@ -8,8 +8,8 @@ import jakarta.persistence.Table;
 import java.util.List;
 
 @Entity
-@Table(name = "payment_method")
-public class PaymentMethod {
+@Table(name = "payment_methods")
+public class PaymentMethod extends BaseEntity{
     @Column(name = "payment_method_name")
     private String paymentMethodName;
 

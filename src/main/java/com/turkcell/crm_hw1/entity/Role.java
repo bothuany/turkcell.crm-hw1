@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "role")
-public class Role {
+public class Role extends BaseEntity{
     @Column(name = "role_name")
     private String roleName;
 

@@ -11,7 +11,4 @@ import java.util.List;
 public class NotificationType extends BaseEntity {
     @Column(name = "type_name")
     private String typeName;
-
-    @OneToMany(mappedBy = "notificationType")
-    private List<Notification> notifications;
 }

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-@Table(name = "Log")
+@Table(name = "logs")
 public class Log extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "user_id")

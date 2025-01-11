@@ -8,12 +8,8 @@ import jakarta.persistence.Table;
 import java.util.List;
 
 @Entity
-@Table(name = "plan_type")
-public class PlanType {
+@Table(name = "plan_types")
+public class PlanType extends BaseEntity{
     @Column(name = "plan_type_name")
     private String planTypeName;
-
-    @OneToMany(mappedBy = "planType")
-    private List<Subscription> subscriptions;
-
 }

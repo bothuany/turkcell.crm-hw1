@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "MessageType")
+@Table(name = "message_types")
 public class MessageType extends BaseEntity {
     @Column(name = "type_name")
     private String typeName;

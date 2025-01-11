@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "product_service")
-public class ProductService {
+public class ProductService extends BaseEntity{
 
     @ManyToOne
     @JoinColumn(name = "type_id")

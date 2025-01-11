@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "permission")
-public class Permission {
+@Table(name = "permissions")
+public class Permission extends BaseEntity{
     @Column(name = "description")
     private String description;
 

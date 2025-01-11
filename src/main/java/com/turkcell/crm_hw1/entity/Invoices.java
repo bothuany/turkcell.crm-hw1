@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 
 @Entity
-@Table(name = "Invoices")
+@Table(name = "invoices")
 public class Invoices extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "subscription_id")

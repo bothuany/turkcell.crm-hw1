@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Notification")
+@Table(name = "notifications")
 public class Notification extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "notification_type")
