@@ -1,4 +1,10 @@
 package com.turkcell.crm_hw1.entity;
 
-public class FeedbackType {
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "FeedbackType")
+public class FeedbackType extends BaseEntity {
+    @Column(name = "type_name")
+    private String typeName;
 }

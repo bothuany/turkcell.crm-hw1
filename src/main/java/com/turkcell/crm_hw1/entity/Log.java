@@ -1,4 +1,15 @@
 package com.turkcell.crm_hw1.entity;
 
-public class Log {
+import jakarta.persistence.*;
+import jakarta.persistence.ManyToOne;
+
+@Entity
+@Table(name = "Log")
+public class Log extends BaseEntity{
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @Column(name = "description")
+    private String description;
 }
