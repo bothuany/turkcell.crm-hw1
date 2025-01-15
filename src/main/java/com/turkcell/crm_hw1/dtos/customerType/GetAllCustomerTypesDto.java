@@ -6,12 +6,8 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 public class GetAllCustomerTypesDto {
-    @NotNull
     private String id;
-    @NotNull
     private String typeName;
     private String createdDate;
     private String updatedDate;

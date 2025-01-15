@@ -10,12 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetSegmentByIdDto {
-
-    @NotNull
-    private Long id;
-
-    @NotNull
-    @Size(min = 1, max = 20)
+    private String id;
     private String name;
-
 }

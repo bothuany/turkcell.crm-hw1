@@ -7,11 +7,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 public class CreateCustomerTypeDto {
     @NotNull
     private String typeName;
-    private String createdDate;
-    private String updatedDate;
 }

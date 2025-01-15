@@ -11,5 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetAllSegmentsDto {
+    private String id;
     private String name;
 }

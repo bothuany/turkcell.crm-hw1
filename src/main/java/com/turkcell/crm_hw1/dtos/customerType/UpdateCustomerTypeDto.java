@@ -6,13 +6,9 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 public class UpdateCustomerTypeDto {
     @NotNull
-    private String id; // maybe will change
+    private String id;
     @NotNull
     private String typeName;
-    private String createdDate;
-    private String updatedDate;
 }
