@@ -8,4 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateSegmentDto {
+    private Long id;
+    private String name;
+
+
 }
