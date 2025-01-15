@@ -1,5 +1,7 @@
 package com.turkcell.crm_hw1.dtos.customer;
 
+import com.turkcell.crm_hw1.dtos.customerType.GetAllCustomerTypesDto;
+import com.turkcell.crm_hw1.dtos.segment.GetAllSegmentsDto;
 import com.turkcell.crm_hw1.entity.CustomerType;
 import com.turkcell.crm_hw1.entity.Segment;
 import lombok.*;
@@ -8,10 +10,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetAllCustomersDto {
-
-
-
-
     private int id;
 
     private String firstName;
@@ -24,10 +22,7 @@ public class GetAllCustomersDto {
 
     private String identityNo;
 
-    private CustomerType type;
+    private GetAllCustomerTypesDto type;
 
-    private Segment segment;
-
-
-
+    private GetAllSegmentsDto segment;
 }
