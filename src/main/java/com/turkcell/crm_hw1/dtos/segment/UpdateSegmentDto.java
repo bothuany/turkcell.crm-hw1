@@ -3,10 +3,8 @@ package com.turkcell.crm_hw1.dtos.segment;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateSegmentDto {
@@ -15,4 +13,20 @@ public class UpdateSegmentDto {
     @NotNull
     @Size(min = 1, max = 20)
     private String name;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

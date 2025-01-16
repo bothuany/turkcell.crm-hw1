@@ -5,9 +5,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-@AllArgsConstructor
 public class CustomerBusinessRules {
     private final CustomerRepository customerRepository;
+
+    public CustomerBusinessRules(CustomerRepository customerRepository) { this.customerRepository = customerRepository; }
 
     public void segmentMustExist(String segmentId) {
         if (!customerRepository.existsById(segmentId)) {

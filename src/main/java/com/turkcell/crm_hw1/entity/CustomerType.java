@@ -9,4 +9,12 @@ import jakarta.persistence.Table;
 public class CustomerType extends BaseEntity{
     @Column(name="type_name")
     private String typeName;
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
 }

@@ -9,4 +9,12 @@ import jakarta.persistence.Table;
 public class Segment extends BaseEntity{
     @Column(name="segment_name")
     private String segmentName;
+
+    public String getSegmentName() {
+        return segmentName;
+    }
+
+    public void setSegmentName(String segmentName) {
+        this.segmentName = segmentName;
+    }
 }

@@ -1,14 +1,20 @@
 package com.turkcell.crm_hw1.dtos.customerType;
 
-import jakarta.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class GetAllCustomerTypesDto {
     private String id;
+
+    @JsonProperty
     private String typeName;
+
     private String createdDate;
+
     private String updatedDate;
+
+    public GetAllCustomerTypesDto(String typeName) {
+        this.typeName = typeName;
+    }
 }
