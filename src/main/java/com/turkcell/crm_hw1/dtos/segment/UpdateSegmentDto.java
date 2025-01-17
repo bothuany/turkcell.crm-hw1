@@ -1,32 +1,20 @@
 package com.turkcell.crm_hw1.dtos.segment;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateSegmentDto {
     @NotNull
+    @JsonProperty
     private String id;
+
     @NotNull
     @Size(min = 1, max = 20)
     private String name;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

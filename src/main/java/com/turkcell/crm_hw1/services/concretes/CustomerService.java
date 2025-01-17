@@ -42,15 +42,15 @@ public class CustomerService implements ICustomerService {
         Segment segment = segmentRepository.findById(createCustomerDto.getSegmentId())
                 .orElse(null);
 
-        Customer customer = new Customer();
-        customer.setFirstName(createCustomerDto.getFirstName());
-        customer.setLastName(createCustomerDto.getLastName());
-        customer.setAddress(createCustomerDto.getAddress());
-        customer.setContact(createCustomerDto.getContact());
-        customer.setIdentityNo(createCustomerDto.getIdentityNo());
-        customer.setType(customerType);
-        customer.setSegment(segment);
-        customer.setCreatedDate(LocalDateTime.now());
+        Customer customer = Customer.builder()
+                .firstName(createCustomerDto.getFirstName())
+                .lastName(createCustomerDto.getLastName())
+                .address(createCustomerDto.getAddress())
+                .contact(createCustomerDto.getContact())
+                .identityNo(createCustomerDto.getIdentityNo())
+                .type(customerType)
+                .segment(segment)
+                .build();
 
         customerRepository.save(customer);
     }
@@ -72,14 +72,21 @@ public class CustomerService implements ICustomerService {
         if(customerWithSameIdentity != null)
             throw new RuntimeException("Customer already exists");
 
-        Customer customerToUpdate = customerRepository.findById(updateCustomerDto.getId()+"").orElseThrow(() -> new RuntimeException("Customer not found"));
-        customerToUpdate.setFirstName(updateCustomerDto.getFirstName());
-        customerToUpdate.setLastName(updateCustomerDto.getLastName());
-        customerToUpdate.setAddress(updateCustomerDto.getAddress());
-        customerToUpdate.setContact(updateCustomerDto.getContact());
-        customerToUpdate.setType(customerType);
-        customerToUpdate.setSegment(segment);
-        customerToUpdate.setUpdatedDate(LocalDateTime.now());
+        Customer customerToUpdate = customerRepository.findById(updateCustomerDto.getId()).orElseThrow(() -> new RuntimeException("Customer not found"));
+        
+        customerToUpdate = Customer.builder()
+                .id(customerToUpdate.getId())
+                .firstName(updateCustomerDto.getFirstName())
+                .lastName(updateCustomerDto.getLastName())
+                .address(updateCustomerDto.getAddress())
+                .contact(updateCustomerDto.getContact())
+                .identityNo(updateCustomerDto.getIdentityNo())
+                .type(customerType)
+                .segment(segment)
+                .createdDate(customerToUpdate.getCreatedDate())
+                .updatedDate(LocalDateTime.now())
+                .build();
+
         customerRepository.save(customerToUpdate);
     }
 
@@ -100,13 +107,20 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public List<GetAllCustomersDto> getAll() {
-        List<GetAllCustomersDto> getAllCustomersDtos = customerRepository
+        return customerRepository
                 .findAll()
                 .stream()
-                .map((customer) -> new GetAllCustomersDto(customer.getIdentityNo(), customer.getFirstName(), customer.getLastName()))
+                .map(customer -> GetAllCustomersDto.builder()
+                        .id(customer.getId())
+                        .firstName(customer.getFirstName())
+                        .lastName(customer.getLastName())
+                        .address(customer.getAddress())
+                        .contact(customer.getContact())
+                        .identityNo(customer.getIdentityNo())
+                        .typeId(customer.getType().getId())
+                        .segmentId(customer.getSegment().getId())
+                        .build())
                 .toList();
-
-        return getAllCustomersDtos;
     }
 
     @Override

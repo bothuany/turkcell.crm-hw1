@@ -25,56 +25,63 @@ public class CustomerTypeService implements ICustomerTypeService {
 
     @Override
     public void add(CreateCustomerTypeDto createCustomerTypeDto) {
-        CustomerType customerType = new CustomerType();
-        customerType.setTypeName(createCustomerTypeDto.getTypeName());
-        customerType.setCreatedDate(LocalDateTime.now());
+        businessRules.checkIfCustomerTypeNameExists(createCustomerTypeDto.getName());
+
+        CustomerType customerType = CustomerType.builder()
+                .name(createCustomerTypeDto.getName())
+                .build();
 
         customerTypeRepository.save(customerType);
     }
 
     @Override
     public void update(UpdateCustomerTypeDto updateCustomerTypeDto) {
-        CustomerType customerTypeWithSameId = customerTypeRepository.findById(updateCustomerTypeDto.getId())
-                .orElse(null);
+        businessRules.checkIfCustomerTypeExists(updateCustomerTypeDto.getId());
+        
+        CustomerType customerType = customerTypeRepository.findById(updateCustomerTypeDto.getId()).get();
 
-        if(customerTypeWithSameId == null)
-            throw new RuntimeException("Customer type doesn't exist");
+        // Check if new name exists but ignore if it's the same customer type
+        customerTypeRepository.findByNameIgnoreCase(updateCustomerTypeDto.getName())
+                .ifPresent(existingType -> {
+                    if (!existingType.getId().equals(updateCustomerTypeDto.getId())) {
+                        throw new RuntimeException("Customer type with name '" + updateCustomerTypeDto.getName() + "' already exists");
+                    }
+                });
 
-        customerTypeWithSameId.setTypeName(updateCustomerTypeDto.getTypeName());
-        customerTypeWithSameId.setUpdatedDate(LocalDateTime.now());
-        customerTypeRepository.save(customerTypeWithSameId);
+        customerType = CustomerType.builder()
+                .id(customerType.getId())
+                .name(updateCustomerTypeDto.getName())
+                .createdDate(customerType.getCreatedDate())
+                .updatedDate(LocalDateTime.now())
+                .build();
+
+        customerTypeRepository.save(customerType);
     }
 
     @Override
     public String delete(String id) {
-        CustomerType customerTypeWithSameId = customerTypeRepository.findById(id)
-                .orElse(null);
-
-        if(customerTypeWithSameId == null)
-            throw new RuntimeException("Customer type doesn't exist");
-
-        customerTypeRepository.delete(customerTypeWithSameId);
+        businessRules.checkIfCustomerTypeExists(id);
+        
+        CustomerType customerType = customerTypeRepository.findById(id).get();
+        customerTypeRepository.delete(customerType);
         return id;
     }
 
     @Override
     public List<GetAllCustomerTypesDto> getAll() {
-        List<GetAllCustomerTypesDto> getAllCustomerTypesDtos = customerTypeRepository
+        return customerTypeRepository
                 .findAll()
                 .stream()
-                .map((customerType) -> new GetAllCustomerTypesDto(customerType.getTypeName()))
+                .map(customerType -> GetAllCustomerTypesDto.builder()
+                        .id(customerType.getId())
+                        .name(customerType.getName())
+                        .build())
                 .toList();
-
-        return getAllCustomerTypesDtos;
     }
 
     @Override
     public Optional<CustomerType> findById(String id) {
-        CustomerType customerType = customerTypeRepository.findById(id)
-                .orElse(null);
-
-        if(customerType == null)
-            throw new RuntimeException("Customer type does not exist");
-        return Optional.of(customerType);
+        businessRules.checkIfCustomerTypeExists(id);
+        return customerTypeRepository.findById(id);
     }
 }

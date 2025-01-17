@@ -4,17 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class GetAllCustomerTypesDto {
     private String id;
-
-    @JsonProperty
-    private String typeName;
-
-    private String createdDate;
-
-    private String updatedDate;
-
-    public GetAllCustomerTypesDto(String typeName) {
-        this.typeName = typeName;
-    }
+    private String name;
 }

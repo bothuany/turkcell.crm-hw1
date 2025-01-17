@@ -1,10 +1,18 @@
 package com.turkcell.crm_hw1.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name="customers")
-public class Customer extends BaseEntity{
+@Getter
+@Setter
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class Customer extends BaseEntity {
     @Column(name="first_name")
     private String firstName;
 
@@ -27,60 +35,4 @@ public class Customer extends BaseEntity{
     @ManyToOne()
     @JoinColumn(name="segment_id")
     private Segment segment;
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getContact() {
-        return contact;
-    }
-
-    public void setContact(String contact) {
-        this.contact = contact;
-    }
-
-    public String getIdentityNo() {
-        return identityNo;
-    }
-
-    public void setIdentityNo(String identityNo) {
-        this.identityNo = identityNo;
-    }
-
-    public CustomerType getType() {
-        return type;
-    }
-
-    public void setType(CustomerType type) {
-        this.type = type;
-    }
-
-    public Segment getSegment() {
-        return segment;
-    }
-
-    public void setSegment(Segment segment) {
-        this.segment = segment;
-    }
 }

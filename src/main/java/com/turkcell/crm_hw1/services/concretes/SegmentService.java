@@ -25,57 +25,63 @@ public class SegmentService implements ISegmentService {
 
     @Override
     public void add(CreateSegmentDto createSegmentDto) {
-        Segment segment = new Segment();
-        segment.setSegmentName(createSegmentDto.getName());
-        segment.setCreatedDate(LocalDateTime.now());
+        segmentBusinessRules.checkIfSegmentNameExists(createSegmentDto.getName());
+
+        Segment segment = Segment.builder()
+                .name(createSegmentDto.getName())
+                .build();
 
         segmentRepository.save(segment);
     }
 
     @Override
     public void update(UpdateSegmentDto updateSegmentDto) {
-        Segment segment = segmentRepository.findById(updateSegmentDto.getId())
-                .orElse(null);
+        segmentBusinessRules.checkIfSegmentExists(updateSegmentDto.getId());
+        
+        Segment segment = segmentRepository.findById(updateSegmentDto.getId()).get();
 
-        if(segment == null) {
-            throw new RuntimeException("Segment does not exist");
-        }
+        // Check if new name exists but ignore if it's the same segment
+        segmentRepository.findByNameIgnoreCase(updateSegmentDto.getName())
+                .ifPresent(existingSegment -> {
+                    if (!existingSegment.getId().equals(updateSegmentDto.getId())) {
+                        throw new RuntimeException("Segment with name '" + updateSegmentDto.getName() + "' already exists");
+                    }
+                });
 
-        segment.setSegmentName(updateSegmentDto.getName());
-        segment.setUpdatedDate(LocalDateTime.now());
+        segment = Segment.builder()
+                .id(segment.getId())
+                .name(updateSegmentDto.getName())
+                .createdDate(segment.getCreatedDate())
+                .updatedDate(LocalDateTime.now())
+                .build();
+
         segmentRepository.save(segment);
     }
 
     @Override
     public String delete(String id) {
-        Segment segment = segmentRepository.findById(id)
-                .orElse(null);
-
-        if(segment == null) {
-            throw new RuntimeException("Segment does not exist");
-        }
+        segmentBusinessRules.checkIfSegmentExists(id);
+        
+        Segment segment = segmentRepository.findById(id).get();
         segmentRepository.delete(segment);
         return id;
     }
 
     @Override
     public List<GetAllSegmentsDto> getAll() {
-        List<GetAllSegmentsDto> getAllSegmentsDtos = segmentRepository
+        return segmentRepository
                 .findAll()
                 .stream()
-                .map((segment) -> new GetAllSegmentsDto(segment.getSegmentName()))
+                .map(segment -> GetAllSegmentsDto.builder()
+                        .id(segment.getId())
+                        .name(segment.getName())
+                        .build())
                 .toList();
-
-        return getAllSegmentsDtos;
     }
 
     @Override
     public Optional<Segment> findById(String id) {
-        Segment segment = segmentRepository.findById(id)
-                .orElse(null);
-
-        if(segment == null)
-            throw new RuntimeException("Segment does not exist");
-        return Optional.of(segment);
+        segmentBusinessRules.checkIfSegmentExists(id);
+        return segmentRepository.findById(id);
     }
 }
